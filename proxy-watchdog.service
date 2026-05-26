@@ -1,0 +1,20 @@
+[Unit]
+Description=SOCKS5 Proxy Health Watchdog Monitor
+After=network.target danted.service
+Requires=danted.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/proxy-watchdog.sh 1080 proxyuser proxy@123
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=proxy-watchdog
+
+# Auto-restart if watchdog crashes
+StartLimitInterval=300
+StartLimitBurst=3
+
+[Install]
+WantedBy=multi-user.target
