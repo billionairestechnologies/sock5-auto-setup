@@ -92,22 +92,14 @@ cat > /etc/systemd/system/danted-ha.service <<'EOF'
 [Unit]
 Description=Dante SOCKS5 Proxy Server - High Availability
 After=network.target
-Wants=network-online.target
 
 [Service]
-Type=forking
-PIDFile=/var/run/danted.pid
-ExecStart=/usr/sbin/danted -D -p /var/run/danted.pid -f /etc/danted.conf
-ExecReload=/bin/kill -HUP $MAINPID
-
-# Auto-restart on any failure
+Type=simple
+ExecStart=/usr/sbin/danted -f /etc/danted.conf
 Restart=always
 RestartSec=5
 StartLimitInterval=600
 StartLimitBurst=10
-
-User=root
-Group=root
 
 LimitNOFILE=65535
 LimitNPROC=65535
