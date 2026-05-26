@@ -8,7 +8,7 @@
 SSH into your VPS and paste:
 
 ```bash
-curl -s https://raw.githubusercontent.com/billionairestechnologies/sock5-auto-setup/main/socks5-proxy-solution/setup-proxy-ha.sh | sudo bash
+curl -s https://raw.githubusercontent.com/billionairestechnologies/sock5-auto-setup/main/setup-proxy-ha.sh | sudo bash
 ```
 
 Done. Proxy is live on port **1080**, no password required.
