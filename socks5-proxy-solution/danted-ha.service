@@ -1,0 +1,48 @@
+[Unit]
+Description=Dante SOCKS5 Proxy Server - High Availability Version
+Documentation=https://www.inet.no/dante/doc/
+After=network.target
+Wants=network-online.target
+
+[Service]
+# ---- Process Management ----
+Type=forking
+PIDFile=/var/run/danted.pid
+ExecStart=/usr/sbin/danted -D -p /var/run/danted.pid -f /etc/danted.conf
+ExecReload=/bin/kill -HUP $MAINPID
+
+# ---- Auto Restart Policy (CRITICAL FOR STABILITY) ----
+# Restart on any failure (crash, signal, exit code != 0)
+Restart=always
+RestartSec=5
+
+# ---- Crash Recovery Backoff ----
+# Don't restart too fast (gives system time to recover)
+# After 10 crashes in 10 minutes, stop trying
+StartLimitInterval=600
+StartLimitBurst=10
+
+# ---- Process Isolation (Security & Stability) ----
+User=root
+Group=root
+
+# ---- File & Connection Limits ----
+# Increase file descriptors to handle many connections
+LimitNOFILE=65535
+LimitNPROC=65535
+
+# ---- Logging ----
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=danted
+
+# ---- Watchdog (Systemd will restart if hung) ----
+# If process doesn't respond to D-Bus in 30 seconds, restart
+TimeoutStartSec=30
+TimeoutStopSec=10
+
+# ---- Environment ----
+Environment="RLIMIT_NOFILE=65535"
+
+[Install]
+WantedBy=multi-user.target
