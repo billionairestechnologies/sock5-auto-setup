@@ -62,11 +62,6 @@ clientmethod: none
 user.privileged: root
 user.notprivileged: nobody
 
-maxchild: 10000
-timeout.io: 600
-timeout.connect: 30
-timeout.negotiate: 30
-
 client pass {
     from: 0.0.0.0/0 to: 0.0.0.0/0
 }
